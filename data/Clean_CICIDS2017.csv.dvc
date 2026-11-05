@@ -1,0 +1,6 @@
+outs:
+- md5: 3decb71552b539633fa25221c6365e34
+  size: 1268115369
+  isexec: true
+  hash: md5
+  path: Clean_CICIDS2017.csv
