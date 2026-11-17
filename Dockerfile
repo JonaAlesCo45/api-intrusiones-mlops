@@ -11,6 +11,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar solo el código de la API y la carpeta del modelo entrenado
 COPY main.py .
 COPY mlruns/ ./mlruns/
+COPY main.py .
+COPY mlruns/ ./mlruns/
+COPY mlflow.db .
+
+ENV MLFLOW_TRACKING_URI="sqlite:///mlflow.db"
 
 # Exponer el puerto por donde escuchará FastAPI
 EXPOSE 8000

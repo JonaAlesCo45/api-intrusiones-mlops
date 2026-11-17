@@ -3,3 +3,8 @@ __pycache__/
 venv/
 data/muestra_cicids.csv
 mlruns/
+data/
+venv/
+airflow/
+__pycache__/
+*.csv

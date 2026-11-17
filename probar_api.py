@@ -1,19 +1,16 @@
 import requests
-import pandas as pd
 
-print("Extrayendo un paquete de red real del dataset...")
-df = pd.read_csv("data/muestra_cicids.csv").fillna(0)
-# Seleccionamos solo las variables numéricas (lo que espera el modelo)
-X = df.iloc[:, :-1].select_dtypes(include=['float64', 'int64'])
+# Generamos una lista exacta de 78 características simuladas
+datos_simulados = [0.0] * 78
 
-# Tomar la primera fila y convertirla en el diccionario esperado
-paquete_prueba = X.iloc[0].to_dict()
+url = "http://localhost:8000/predecir"
+payload = {"caracteristicas": datos_simulados}
 
-print("Enviando petición a la API de FastAPI...")
-url = "http://127.0.0.1:8000/predecir"
+print("Enviando paquete de red a la API (78 características)...")
 
-# FastAPI espera un JSON con la estructura {"caracteristicas": {datos...}}
-respuesta = requests.post(url, json={"caracteristicas": paquete_prueba})
-
-print("\n=== DIAGNÓSTICO DEL IDS ===")
-print(respuesta.json())
+try:
+    respuesta = requests.post(url, json=payload)
+    print("Código de estado:", respuesta.status_code)
+    print("Respuesta del modelo:", respuesta.json())
+except requests.exceptions.ConnectionError:
+    print("Error: No se pudo conectar. ¿Seguro que el contenedor Docker está corriendo?")

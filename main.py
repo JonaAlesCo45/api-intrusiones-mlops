@@ -1,33 +1,21 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import mlflow.sklearn
-import mlflow
 import pandas as pd
 
 app = FastAPI(title="API - Detección de Intrusiones de Red")
 
-print("Conectando con MLflow para buscar un modelo válido...")
+print("Cargando el modelo de Random Forest directamente desde la carpeta local...")
 
-# FILTRO CLAVE: Buscar solo ejecuciones donde la precisión (accuracy) sea mayor a 0
-ejecuciones = mlflow.search_runs(
-    experiment_names=["Deteccion_Intrusiones_Red"],
-    filter_string="metrics.accuracy > 0",
-    order_by=["start_time DESC"]
-)
-
-if ejecuciones.empty:
-    raise Exception("No se encontró ningún modelo exitoso. Ejecuta entrenar_modelo.py de nuevo.")
-
-# Ahora es completamente seguro tomar el primer elemento (el más reciente y exitoso)
-run_id = ejecuciones.iloc[0].run_id
-modelo_uri = f"runs:/{run_id}/modelo_rf"
+# Ruta relativa dentro del contenedor (ignora la base de datos y la ruta de Windows)
+modelo_path = "mlruns/1/models/m-ca3e35af53684a3b978d3d6a98aa7491/artifacts"
 
 # Cargar el modelo
-modelo = mlflow.sklearn.load_model(modelo_uri)
-print(f"Modelo cargado exitosamente desde la ejecución: {run_id}")
+modelo = mlflow.sklearn.load_model(modelo_path)
+print("Modelo cargado exitosamente.")
 
 class PaqueteRed(BaseModel):
-    caracteristicas: dict
+    caracteristicas: list  # Cambiado a 'list' para aceptar los 78 ceros de tu prueba
 
 @app.get("/")
 def inicio():
@@ -35,6 +23,7 @@ def inicio():
 
 @app.post("/predecir")
 def predecir_trafico(paquete: PaqueteRed):
+    # Convierte la lista de 78 números en 1 fila de DataFrame
     df_entrada = pd.DataFrame([paquete.caracteristicas])
     prediccion = modelo.predict(df_entrada)
     estado = "Ataque detectado" if prediccion[0] == 1 else "Tráfico normal"
