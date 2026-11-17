@@ -1,0 +1,24 @@
+artifact_path: /mnt/c/Users/jonat/proyecto-mlops-red/mlruns/1/models/m-fdf0f60bd9b648da9cd4946a319f42fe/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.14.4
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.9.1
+    skops_trusted_types:
+    - sklearn.tree._tree.Tree
+mlflow_version: 3.18.0
+model_id: m-fdf0f60bd9b648da9cd4946a319f42fe
+model_size_bytes: 1759450
+model_uuid: m-fdf0f60bd9b648da9cd4946a319f42fe
+prompts: null
+run_id: d9dd2fe1de364805a76a5d41d9214869
+utc_time_created: '2026-11-06 00:17:51.767778'
