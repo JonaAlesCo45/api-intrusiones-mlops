@@ -12,7 +12,7 @@ st.markdown("Interfaz gráfica conectada al contenedor de Machine Learning.")
 st.divider()
 
 # URL de la API que está dentro de tu contenedor Docker
-API_URL = "http://localhost:8000/predecir"
+API_URL = "https://api-intrusiones-mlops.onrender.com/predecir"
 
 st.subheader("Simulador de Tráfico")
 st.write("Haz clic en los botones para enviar datos al modelo y ver su reacción en vivo.")
