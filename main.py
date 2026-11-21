@@ -27,6 +27,7 @@ def predecir_trafico(paquete: PaqueteRed):
     df_entrada = pd.DataFrame([paquete.caracteristicas])
     prediccion = modelo.predict(df_entrada)
     estado = "Ataque detectado" if prediccion[0] == 1 else "Tráfico normal"
+    print(f"[MONITOR IDS] Nueva consulta -> Resultado: {estado}", flush=True)
     
     return {
         "codigo_prediccion": int(prediccion[0]),
